@@ -1,0 +1,2 @@
+.header{margin-left:20px}.container{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%)}.current-word{font-size:100px}h1{text-align:center}.buttons{display:flex;margin-top:20px}@media only screen and (min-width:600px){.buttons{justify-content:flex-start}}@media only screen and (min-width:900px){.buttons{justify-content:center}}
+/*# sourceMappingURL=main.8e91033c.chunk.css.map */
