@@ -38,28 +38,36 @@ function useInterval(callback, delay) {
 const App = () => {
     const wpmList = [60, 120, 240, 360, 480, 540, 720];
     const wpmToMillisecond = (wpm) => 1000 / (wpm / 60);
+    const seussBlurb =
+        "You have brains in your head. You have feet in your shoes. You can steer yourself any direction you choose. You’re on your own. And you know what you know. And YOU are the guy who’ll decide where to go. You’ll get mixed up, of course, as you already know. You’ll get mixed up with many strange birds as you go. So be sure when you step. Step with care and great tact and remember that Life’s A Great Balancing Act. And will you succeed? Yes! You will, indeed! (98 and ¾ percent guaranteed.) KID, YOU’LL MOVE MOUNTAINS!";
 
     const [currentWord, setCurrentWord] = useState("");
-    const [words, setWords] = useState("");
-    const [speed, setSpeed] = useState(60);
+    const [words, setWords] = useState(seussBlurb);
+    const [speed, setSpeed] = useState(480);
     const [count, setCount] = useState(0);
 
     const [toggle, running] = useInterval(() => {
         if (!words) {
             return;
         }
-        const wordArray = words.split(" ");
+        const wordArray = words.split(" ").filter((word) => word !== "");
+        console.log(wordArray);
+        console.log(count);
 
-        setCount((count) => count < wordArray.length && count + 1);
+        count < wordArray.length - 1 ? setCount((count) => count + 1) : setCount(0);
 
         setCurrentWord(wordArray[count]);
     }, wpmToMillisecond(speed));
+
+    useEffect(() => {
+        setCount(0);
+    }, [words]);
 
     const RenderSpeedButtons = () => {
         const buttonClassName = "button is-link";
         return wpmList.map((wpm, index) => (
             <button
-                className={wpm === speed ? buttonClassName.concat(" is-inverted") : buttonClassName}
+                className={wpm !== speed ? buttonClassName.concat(" is-inverted") : buttonClassName}
                 disabled={running}
                 id={wpm}
                 key={index}
@@ -85,6 +93,7 @@ const App = () => {
                     rows="10"
                     cols="100"
                     placeholder="Add text to start"
+                    defaultValue={seussBlurb}
                     onChange={(e) => {
                         setWords(e.target.value);
                     }}
